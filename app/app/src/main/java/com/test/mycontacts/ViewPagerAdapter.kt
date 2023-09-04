@@ -10,9 +10,9 @@ class ViewPagerAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         val fragment =  when(position)
         {
-//            0-> 프레그먼트1.newInstant()
-//            1-> 프레그먼트2.newInstant()
-//            else -> 프레그먼트1.newInstant()
+            0-> MyPageFragment()
+            1-> MyPageFragment()
+            else -> MyPageFragment()
         }
         return fragment
     }
