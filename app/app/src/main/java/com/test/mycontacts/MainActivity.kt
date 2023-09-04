@@ -1,5 +1,6 @@
 package com.test.mycontacts
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,16 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener(this)
-    }
-
-    override fun onClick(view: View){
-        when(view?.id)
-        {
-            binding.button.id ->{
-
-            }
-        }
-
-    }
+    } // requirecontext()
 
 }
+

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/dialog"
         android:layout_width="405dp"
         android:layout_height="530dp"
         android:background="#000000"
@@ -69,7 +70,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/cancelbtn"
                 android:layout_width="161dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
