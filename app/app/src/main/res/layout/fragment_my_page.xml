@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/dummy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/constraint_btn_mid">
@@ -198,9 +198,9 @@
                     android:text="Call"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/email_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/constraint_bot"
+                    app:layout_constraintEnd_toEndOf="@id/constraint_bot"
+                    app:layout_constraintStart_toEndOf="@id/constraint_bot"
                     app:layout_constraintTop_toBottomOf="@id/notification_view" />
 
                 <TextView
@@ -234,7 +234,17 @@
 
                 </TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/dummy"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:layout_constraintTop_toBottomOf="@id/constraint_bot"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/constraint_bot"
+                app:layout_constraintEnd_toEndOf="@id/constraint_bot"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </ScrollView>
 
