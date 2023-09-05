@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/dialog"
-        android:layout_width="405dp"
-        android:layout_height="530dp"
+        android:layout_width="362dp"
+        android:layout_height="533dp"
         android:background="#000000"
         android:orientation="vertical"
         android:padding="16dp">
@@ -17,9 +17,9 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/profile"
-            app:civ_border_overlay="true"
-            android:layout_marginBottom="10dp"/>
+            app:civ_border_overlay="true" />
 
         <EditText
             android:id="@+id/name"
