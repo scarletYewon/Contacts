@@ -16,31 +16,19 @@
             android:name=".DuduMainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-
-            android:exported="false">
-
-        </activity>
-        <activity
             android:name=".Test"
+            android:exported="false"/>
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            android:exported="true" >
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
-
-
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
     </application>
-
 </manifest>
