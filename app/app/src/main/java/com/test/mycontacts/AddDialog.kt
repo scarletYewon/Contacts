@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import com.test.mycontacts.databinding.DialogBinding
 
 class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
@@ -25,8 +26,15 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
             val number = binding.number.text.toString()
             val mail = binding.mail.text.toString()
 
-            onClickedListener.onClicked(name, number, mail)
-            dismiss()
+            if(condition(name,number, mail)) {
+
+                onClickedListener.onClicked(name,number,mail)
+                dismiss()
+            }else
+            {
+                Toast.makeText(context,"빈칸을 채워주세요.",Toast.LENGTH_LONG).show()
+            }
+
         }
 
         cancelButton.setOnClickListener {
@@ -40,6 +48,15 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
 
     fun setOnButtonClickListener(listener: ButtonClickListener) {
         onClickedListener = listener
+    }
+
+    private fun condition(name : String,number: String,mail : String):Boolean{ // condition 함수를 통해 빈칸이 있을 경우 false 반환
+        if(name.isEmpty() || number.isEmpty() || mail.isEmpty())
+        {
+            return false
+        }
+
+        return true
     }
 }
 
