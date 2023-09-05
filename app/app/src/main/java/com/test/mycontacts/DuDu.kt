@@ -1,23 +1,23 @@
 package com.test.mycontacts
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.ex6_simplelistview.MyAdapter
-import com.test.mycontacts.databinding.ActivityDuduMainBinding
-import com.test.mycontacts.databinding.ActivityMainBinding
+import com.test.mycontacts.databinding.FragmentDuduBinding
 
-class DuduMainActivity : AppCompatActivity() {
+class DuDu : Fragment() {
 
-    private lateinit var binding: ActivityDuduMainBinding
+    private lateinit var binding: FragmentDuduBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater:LayoutInflater,container:ViewGroup?,savedInstanceState:Bundle?
+    ):View? {
 
-        binding = ActivityDuduMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         // 데이터 원본 준비
         val dataList = mutableListOf(
@@ -41,14 +41,16 @@ class DuduMainActivity : AppCompatActivity() {
         // 어댑터 생성 및 연결
         val adapter = MyAdapter(dataList)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val name: String = (dataList[position] as MyItems.SmItem).aName
-                Toast.makeText(this@DuduMainActivity, " $name 선택!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), " $name 선택!", Toast.LENGTH_SHORT).show()
             }
 
         }
+        return binding.root
     }
+
 }
