@@ -6,16 +6,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.ex6_simplelistview.MyAdapter
+import com.test.mycontacts.databinding.ActivityDuduMainBinding
 import com.test.mycontacts.databinding.ActivityMainBinding
 
 class DuduMainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityDuduMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDuduMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 데이터 원본 준비
