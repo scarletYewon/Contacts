@@ -36,7 +36,7 @@ class DuduMainActivity : AppCompatActivity() {
             MyItems.jypItem(R.drawable.jyp_kyujin, "귀엽다 규진", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_seohyun, "이쁜막내 서현", R.drawable.img_like)
 
-            )
+        )
         // 어댑터 생성 및 연결
         val adapter = MyAdapter(dataList)
         binding.recyclerView.adapter = adapter
@@ -45,8 +45,9 @@ class DuduMainActivity : AppCompatActivity() {
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val name: String = (dataList[position] as MyItems.SmItem).aName
-                Toast.makeText(this@DuduMainActivity," $name 선택!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DuduMainActivity, " $name 선택!", Toast.LENGTH_SHORT).show()
             }
 
+        }
     }
 }
