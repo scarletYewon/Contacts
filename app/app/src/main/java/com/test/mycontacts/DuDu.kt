@@ -18,6 +18,7 @@ class DuDu : Fragment() {
         inflater:LayoutInflater,container:ViewGroup?,savedInstanceState:Bundle?
     ):View? {
 
+        binding = FragmentDuduBinding.inflate(inflater,container,false)
 
         // 데이터 원본 준비
         val dataList = mutableListOf(

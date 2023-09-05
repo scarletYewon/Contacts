@@ -10,9 +10,9 @@ class ViewPagerAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         val fragment =  when(position)
         {
-            0-> MyPageFragment()
+            0-> DuDu()
             1-> MyPageFragment()
-            else -> MyPageFragment()
+            else -> DuDu()
         }
         return fragment
     }
