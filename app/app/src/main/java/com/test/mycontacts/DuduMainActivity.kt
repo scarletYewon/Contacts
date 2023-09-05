@@ -27,13 +27,13 @@ class DuduMainActivity : AppCompatActivity() {
             MyItems.jypItem(R.drawable.jyp_lily, "요정 릴리", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_hyoyeon, "춤신춤왕 효연", R.drawable.img_like),
             MyItems.jypItem(R.drawable.jyp_haewon, "시원시원 해원", R.drawable.img_like2),
-            MyItems.SmItem(R.drawable.sm_taeyeon, "재태크왕 유리", R.drawable.img_like),
+            MyItems.SmItem(R.drawable.sm_yuri, "재태크왕 유리", R.drawable.img_like),
             MyItems.jypItem(R.drawable.jyp_sullyoon, "설빙조아 설윤", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_sooyoung, "swimming 수영", R.drawable.img_like),
             MyItems.jypItem(R.drawable.jyp_bae, "베이비 배이", R.drawable.img_like2),
             MyItems.jypItem(R.drawable.jyp_lily, "요정 릴리", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_yoona, "얼굴천재 윤아", R.drawable.img_like),
-            MyItems.jypItem(R.drawable.jyp_lily, "피카츄의왕 지우", R.drawable.img_like2),
+            MyItems.jypItem(R.drawable.jyp_jiwoo, "피카츄의왕 지우", R.drawable.img_like2),
             MyItems.jypItem(R.drawable.jyp_kyujin, "귀엽다 규진", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_seohyun, "이쁜막내 서현", R.drawable.img_like)
 
