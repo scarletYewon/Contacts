@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.ex6_simplelistview.MyAdapter
 import com.test.mycontacts.databinding.FragmentDuduBinding
 
-class DuDu : Fragment() {
+class ContactList : Fragment() {
 
     private lateinit var binding: FragmentDuduBinding
 

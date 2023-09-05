@@ -10,9 +10,9 @@ class ViewPagerAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         val fragment =  when(position)
         {
-            0-> DuDu()
+            0-> ContactList()
             1-> MyPageFragment()
-            else -> DuDu()
+            else -> ContactList()
         }
         return fragment
     }
