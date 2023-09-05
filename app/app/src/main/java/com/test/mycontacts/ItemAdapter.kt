@@ -1,12 +1,8 @@
 package com.android.ex6_simplelistview
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -29,7 +25,7 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
     var itemClick: ItemClick? = null
 
     //3.ViewGroup으로 recycleview가 들어올거고, 그다음 int값으로 VIEW_TYPE_SM = 1이나 VIEW_TYPE_JYP = 2가 들어온다
-    //
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
@@ -55,12 +51,12 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
             is MyItems.SmItem -> {
                 (holder as SmViewHolder).iconImageView.setImageResource(item.aIcon)
                 holder.name.text = "${item.aName} "
-                holder.iconImageView.setImageResource(item.alike1)
+                holder.likeImageView.setImageResource(item.alike1)
             }
             is MyItems.jypItem -> {
                 (holder as JypViewHolder).iconImageView.setImageResource(item.bIcon)
                 holder.name.text = "${item.bName}"
-                holder.iconImageView.setImageResource(item.blike2)
+                holder.likeImageView.setImageResource(item.blike2)
 
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position)
@@ -90,13 +86,13 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
         RecyclerView.ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
-        val like = binding.like
+        val likeImageView = binding.like
     }
 
     inner class SmViewHolder(binding: FragmentSmBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
-        val like = binding.like
+        val likeImageView = binding.like
     }
 }
