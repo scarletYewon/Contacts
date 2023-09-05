@@ -8,7 +8,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.test.mycontacts.databinding.DialogBinding
 
-class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
+class
+AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
 
     private lateinit var onClickedListener: ButtonClickListener
 
