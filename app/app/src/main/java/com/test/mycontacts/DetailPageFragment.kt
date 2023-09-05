@@ -11,8 +11,7 @@ import com.test.mycontacts.databinding.FragmentDetailPageBinding
 class DetailPageFragment : Fragment() {
     private lateinit var binding: FragmentDetailPageBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailPageBinding.inflate(inflater, container, false)
         binding.callBtn.setOnClickListener {}
@@ -26,8 +25,7 @@ class DetailPageFragment : Fragment() {
         binding.email2Tv.text = email
         arguments?.let {
             binding.image.setImageResource(it.getInt("image"))
-        } ?: run {
-        }
+        } ?: run {}
         return binding.root
     }
 }

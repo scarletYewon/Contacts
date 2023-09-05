@@ -20,7 +20,7 @@ class ContactList : Fragment() {
 
         binding = FragmentDuduBinding.inflate(inflater, container, false)
 
-        // 데이터 원본 준비 // 전화번호,이메일 추가
+        // 데이터 원본 준비 // 동규 수정(24~39) : 전화번호,이메일 추가
         val dataList = mutableListOf(
             MyItems.SmItem(R.drawable.sm_taeyeon, "우윳빛깔 김태연", "010-0000-0000", "taeyeon@sm.kr", R.drawable.img_like),
             MyItems.SmItem(R.drawable.sm_sunny, "사장님조카 써니", "010-0000-0001", "sunny@sm.kr", R.drawable.img_like),
@@ -45,8 +45,8 @@ class ContactList : Fragment() {
 
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-//                val name: String = (dataList[position] as MyItems.SmItem).aName
-                val item = dataList[position]
+//                val name: String = (dataList[position] as MyItems.SmItem).aName 동규 수정(48) : 주석 처리
+                val item = dataList[position] // 동규 추가(49~69) : 상세페이지로 데이터 전달 추가
 
                 val name: String
                 val image: Int
@@ -66,9 +66,9 @@ class ContactList : Fragment() {
                         email = item.bEmail
                     }
                     else -> throw IllegalArgumentException("Unknown item type")
-                }// 49 주석처리 & 50~69 추가
+                }
                 Toast.makeText(requireContext(), " $name 선택!", Toast.LENGTH_SHORT).show()
-                // 추가되는 부분
+                // 동규 추가(72~91) : 상세페이지로 데이터 전달 추가
                 // 데이터를 Bundle로 패킹
                 val bundle = Bundle()
                 bundle.putString("name", name)
@@ -91,8 +91,6 @@ class ContactList : Fragment() {
                     .commit()
             }
         }
-
-
         return binding.root
     }
 
