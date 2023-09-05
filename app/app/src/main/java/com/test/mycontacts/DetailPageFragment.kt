@@ -18,6 +18,16 @@ class DetailPageFragment : Fragment() {
         binding.callBtn.setOnClickListener {}
         binding.messageBtn.setOnClickListener {}
         // Inflate the layout for this fragment
+        val name = arguments?.getString("name")
+        val phonenumber = arguments?.getString("phonenumber")
+        val email = arguments?.getString("email")
+        binding.imagename.text = name
+        binding.phonenumberTv2.text = phonenumber
+        binding.email2Tv.text = email
+        arguments?.let {
+            binding.image.setImageResource(it.getInt("image"))
+        } ?: run {
+        }
         return binding.root
     }
 }

@@ -52,6 +52,10 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
                 (holder as SmViewHolder).iconImageView.setImageResource(item.aIcon)
                 holder.name.text = "${item.aName} "
                 holder.likeImageView.setImageResource(item.alike1)
+
+                holder.itemView.setOnClickListener {
+                    itemClick?.onClick(it, position)
+                }
             }
             is MyItems.jypItem -> {
                 (holder as JypViewHolder).iconImageView.setImageResource(item.bIcon)
