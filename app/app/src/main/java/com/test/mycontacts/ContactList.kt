@@ -16,6 +16,7 @@ class ContactList : Fragment() {
 
     private lateinit var binding: FragmentDuduBinding
     private val dataList = mutableListOf<MyItems>()
+    private val adapter = MyAdapter(dataList)
 
 
     override fun onCreateView(
@@ -46,14 +47,19 @@ class ContactList : Fragment() {
         )
          )
         // 어댑터 생성 및 연결
-        val adapter = MyAdapter(dataList)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                val name: String = (dataList[position] as MyItems.SmItem).aName
-                Toast.makeText(requireContext(), " $name 선택!", Toast.LENGTH_SHORT).show()
+                if (dataList[position] is MyItems.SmItem){
+                    val smItem = dataList[position] as MyItems.SmItem
+                    val name : String = smItem.aName
+                } else if (dataList[position] is MyItems.jypItem)
+                {
+                    val jypItem = dataList[position] as MyItems.jypItem
+                    val name : String = jypItem.bName
+                }
             }
 
         }
@@ -61,13 +67,14 @@ class ContactList : Fragment() {
 
 
     }
-    fun addContact(name:String)
+    fun addContact(name:String,number: String,mail:String)
     {
         val addContact = MyItems.SmItem(R.drawable.basic,name,R.drawable.img_like)
         dataList.add(addContact)
 
+        adapter.notifyDataSetChanged() //어댑터 새로고침
+
         Log.d("ContactList", "dataList: $dataList")
     }
-
 
 }

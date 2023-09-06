@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import com.test.mycontacts.databinding.ActivityMainBinding
 import com.test.mycontacts.databinding.DialogBinding
-import com.test.mycontacts.databinding.TestActivityBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,14 +33,14 @@ class MainActivity : AppCompatActivity() {
             dialog.setOnButtonClickListener(object : AddDialog.ButtonClickListener {
                 override fun onClicked(name: String,number: String,mail:String) {
                     val contactListFragment = pagerAdapter.getItem(0) as ContactList
-                    contactListFragment.addContact(name)
+                    contactListFragment.addContact(name,number,mail)
+                    ContactList()
                     Toast.makeText(this@MainActivity,"${name} 전달 확인",Toast.LENGTH_LONG).show()
+                    }
                 }
-            })
-
+            )
 
             dialog.dig()
-
             dialog.show()
         }
     }
