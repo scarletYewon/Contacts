@@ -8,10 +8,12 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.test.mycontacts.databinding.DialogBinding
 
+
 class
 AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
 
     private lateinit var onClickedListener: ButtonClickListener
+
 
     fun dig() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -51,6 +53,9 @@ AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context
         onClickedListener = listener
     }
 
+
+
+    // 빈칸 조건
     private fun condition(name : String,number: String,mail : String):Boolean{ // condition 함수를 통해 빈칸이 있을 경우 false 반환
         if(name.isEmpty() || number.isEmpty() || mail.isEmpty())
         {

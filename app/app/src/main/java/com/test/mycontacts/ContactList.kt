@@ -1,6 +1,7 @@
 package com.test.mycontacts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.ex6_simplelistview.MyAdapter
+import com.test.mycontacts.databinding.DialogBinding
 import com.test.mycontacts.databinding.FragmentDuduBinding
 
 class ContactList : Fragment() {
 
     private lateinit var binding: FragmentDuduBinding
+    private val dataList = mutableListOf<MyItems>()
+
 
     override fun onCreateView(
         inflater:LayoutInflater,container:ViewGroup?,savedInstanceState:Bundle?
@@ -21,7 +25,8 @@ class ContactList : Fragment() {
         binding = FragmentDuduBinding.inflate(inflater,container,false)
 
         // 데이터 원본 준비
-        val dataList = mutableListOf(
+         dataList.addAll(
+             listOf(
             MyItems.SmItem(R.drawable.sm_taeyeon, "우윳빛깔 김태연", R.drawable.img_like),
             MyItems.SmItem(R.drawable.sm_sunny, "사장님조카 써니", R.drawable.img_like),
             MyItems.SmItem(R.drawable.sm_tiffany, "보석닮은 티파니", R.drawable.img_like),
@@ -39,6 +44,7 @@ class ContactList : Fragment() {
             MyItems.SmItem(R.drawable.sm_seohyun, "이쁜막내 서현", R.drawable.img_like)
 
         )
+         )
         // 어댑터 생성 및 연결
         val adapter = MyAdapter(dataList)
         binding.recyclerView.adapter = adapter
@@ -52,6 +58,16 @@ class ContactList : Fragment() {
 
         }
         return binding.root
+
+
     }
+    fun addContact(name:String)
+    {
+        val addContact = MyItems.SmItem(R.drawable.basic,name,R.drawable.img_like)
+        dataList.add(addContact)
+
+        Log.d("ContactList", "dataList: $dataList")
+    }
+
 
 }
