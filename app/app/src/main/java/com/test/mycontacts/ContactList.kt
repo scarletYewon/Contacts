@@ -1,6 +1,7 @@
 package com.test.mycontacts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.ex6_simplelistview.MyAdapter
+import com.test.mycontacts.databinding.DialogBinding
 import com.test.mycontacts.databinding.FragmentDuduBinding
 
 class ContactList : Fragment() {
 
     private lateinit var binding: FragmentDuduBinding
+    private val dataList = mutableListOf<MyItems>()
+    private val adapter = MyAdapter(dataList)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,15 +42,17 @@ class ContactList : Fragment() {
             MyItems.jypItem(R.drawable.jyp_jiwoo, "피카츄의왕 지우", "010-0000-0012", "jiwoo@jyp.kr", R.drawable.img_like2),
             MyItems.jypItem(R.drawable.jyp_kyujin, "귀엽다 규진", "010-0000-0013", "kyujin@jyp.kr", R.drawable.img_like2),
             MyItems.SmItem(R.drawable.sm_seohyun, "이쁜막내 서현", "010-0000-0014", "seohyun@sm.kr", R.drawable.img_like)
+
         )
+         )
         // 어댑터 생성 및 연결
-        val adapter = MyAdapter(dataList)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-//                val name: String = (dataList[position] as MyItems.SmItem).aName 동규 수정(48) : 주석 처리
+
+//val name: String = (dataList[position] as MyItems.SmItem).aName 동규 수정(48) : 주석 처리
                 val item = dataList[position] // 동규 추가(49~69) : 상세페이지로 데이터 전달 추가
 
                 val name: String
@@ -92,6 +99,17 @@ class ContactList : Fragment() {
             }
         }
         return binding.root
+
+
+    }
+    fun addContact(name:String,number: String,mail:String)
+    {
+        val addContact = MyItems.SmItem(R.drawable.basic,name,R.drawable.img_like)
+        dataList.add(addContact)
+
+        adapter.notifyDataSetChanged() //어댑터 새로고침
+
+        Log.d("ContactList", "dataList: $dataList")
     }
 
 }
