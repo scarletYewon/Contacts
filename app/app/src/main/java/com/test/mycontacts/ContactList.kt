@@ -49,18 +49,21 @@ class ContactList : Fragment() {
                 val image: Int
                 val phonenumber: String
                 val email: String
+                val notifi: Int
                 when (item) {
                     is MyItems.SmItem -> {
                         name = item.aName
                         image = item.aIcon
                         phonenumber = item.aPhonenumber
                         email = item.aEmail
+                        notifi = item.notifi
                     }
                     is MyItems.jypItem -> {
                         name = item.bName
                         image = item.bIcon
                         phonenumber = item.bPhonenumber
                         email = item.bEmail
+                        notifi = item.notifi
                     }
                     else -> throw IllegalArgumentException("Unknown item type")
                 }
@@ -72,6 +75,7 @@ class ContactList : Fragment() {
                 bundle.putInt("image", image)
                 bundle.putString("phonenumber", phonenumber)
                 bundle.putString("email", email)
+                bundle.putInt("notifi", notifi)
                 // ... 다른 데이터도 Bundle에 추가
 
                 // MyPageFragment 인스턴스 생성 및 Bundle 설정
@@ -98,25 +102,8 @@ class ContactList : Fragment() {
     {
         val addContact = MyItems.SmItem(R.drawable.basic,name,number,mail,R.drawable.img_like,notificationTime)
         defaultDataList.add(addContact) // 동규 수정
-        context?.let { setNotification(it, notificationTime) } // 동규 추가 : 알림 설정 부분
-        adapter.notifyDataSetChanged() // 어댑터    새로고침
+        adapter.notifyDataSetChanged() // 어댑터 새로고침
 
         Log.d("ContactList", "dataList: $defaultDataList") // 동규 수정
-    }
-    fun setNotification(context: Context, notificationTime: Int) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val notificationIntent = Intent(context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        // 편의상 1분을 1000ms (1초)로 가정. 실제 앱에서는 1분 = 60 * 1000ms 입니다.
-        val triggerTime = when (notificationTime) {
-            5 -> 5 * 1000
-            10 -> 10 * 1000
-            30 -> 30 * 1000
-            else -> 0
-        }
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + triggerTime, pendingIntent)
     }
 }

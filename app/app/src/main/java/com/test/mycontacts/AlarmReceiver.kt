@@ -7,14 +7,18 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import com.test.mycontacts.MyItems.Companion.defaultDataList
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        showNotification(context)
+        val dataBundle = intent.extras
+        val name = (MyItems.defaultDataList.last() as MyItems.SmItem).aName
+        showNotification(context, name)
     }
 
-    private fun showNotification(context: Context) {
+    private fun showNotification(context: Context, name: String) {
         val channelId = "notification_channel_id"
         val channelName = "Notification Channel"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -30,8 +34,8 @@ class AlarmReceiver : BroadcastReceiver() {
         )
 
         val notification = Notification.Builder(context, channelId)
-            .setContentTitle("알림 제목")
-            .setContentText("알림 내용")
+            .setContentTitle("연락처 알림")
+            .setContentText("${name}님에게 연락할 시간입니다!")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingOpenAppIntent)
             .setAutoCancel(true)  // 알림을 클릭하면 자동으로 사라지게 합니다.

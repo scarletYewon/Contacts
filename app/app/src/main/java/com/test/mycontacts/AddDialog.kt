@@ -1,24 +1,49 @@
 package com.test.mycontacts
 
+import android.app.Activity
+import android.app.AlarmManager
 import android.app.Dialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.test.mycontacts.databinding.DialogBinding
+import android.Manifest // 이 부분을 추가하세요.
+import android.net.Uri
 
 
-class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
+class AddDialog(private val activity: Activity, private val binding: DialogBinding) : Dialog(activity)
+ {
     var onDataAdded: (() -> Unit)? = null  // 여기를 추가 // 동규 추가 다이어로그 꺼졋을때 화면갱신 , 추가1
     private lateinit var onClickedListener: ButtonClickListener
     private var notificationTime = 0  // 동규 추가 : 알림 시간 값을 저장할 변수 , 추가2
+    companion object { // MainActivity에서도 쓸꺼라 companion object로
+        const val REQUEST_GALLERY_DIALOG = 3
+    }
 
+    fun openGalleryForDialog() {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_GALLERY_DIALOG)
+        } else {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            activity.startActivityForResult(intent, REQUEST_GALLERY_DIALOG)
+        }
+    }
     fun dig() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
         setCanceledOnTouchOutside(false) // 다이얼로그 외의 부분을 눌렀을 때 꺼지지 않게 설정
         window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
+        binding.profileimage.setOnClickListener {
+            openGalleryForDialog()
+        }
         val saveButton = binding.save
         val cancelButton = binding.cancelbtn
 
@@ -35,6 +60,7 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
 
             if(condition(name,number, mail)) {
                 onClickedListener.onClicked(name, number, mail, notificationTime) // 알림 시간 값을 전달 , 추가4
+                scheduleAlarm(context, notificationTime) // 알림 예약 코드
                 onDataAdded?.invoke() // 동규추가2 , 추가5
                 dismiss()
             }
@@ -86,5 +112,18 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
         val number_condition = "^\\d{3}-\\d{3,4}-\\d{4}\$".toRegex()
         return number_condition.matches(number)
     }
+    private fun scheduleAlarm(context: Context, minutesFromNow: Int) { // 동규 추가
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+        val alarmIntent = Intent(context, AlarmReceiver::class.java).let {
+            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val triggerTime = System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'분 후
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
+    }
+    fun setImageUri(imageUri: Uri?) { // 다이어로그 이미지 추가용
+        binding.profileimage.setImageURI(imageUri)
+    }
 }
