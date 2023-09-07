@@ -1,5 +1,6 @@
 package com.test.mycontacts
 
+
 import android.app.Dialog
 import android.content.Context
 import android.view.Window
@@ -7,24 +8,20 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.test.mycontacts.databinding.DialogBinding
 
+
 class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
-    var onDataAdded: (() -> Unit)? = null
+
     private lateinit var onClickedListener: ButtonClickListener
-    private var notificationTime = 0
+
 
     fun dig() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
-        setCanceledOnTouchOutside(false)
+        setCanceledOnTouchOutside(false) // 다이얼로그 외의 부분을 눌렀을 때 꺼지지 않게 설정
         window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
         val saveButton = binding.save
         val cancelButton = binding.cancelbtn
-
-        binding.off.setOnClickListener { notificationTime = 0 }
-        binding.fivemin.setOnClickListener { notificationTime = 5 }
-        binding.tenmin.setOnClickListener { notificationTime = 10 }
-        binding.thirtymin.setOnClickListener { notificationTime = 30 }
 
         saveButton.setOnClickListener {
             val name = binding.name.text.toString()
@@ -32,10 +29,11 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
             val mail = binding.mail.text.toString()
 
             if(condition(name,number, mail)) {
-                onClickedListener.onClicked(name, number, mail, notificationTime)
-                onDataAdded?.invoke()
+
+                onClickedListener.onClicked(name,number,mail)
                 dismiss()
             }
+
         }
 
         cancelButton.setOnClickListener {
@@ -44,15 +42,19 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
     }
 
     interface ButtonClickListener {
-        fun onClicked(name: String, number: String, email: String, notificationTime:Int)
+        fun onClicked(name: String, number: String, email: String)
     }
 
     fun setOnButtonClickListener(listener: ButtonClickListener) {
         onClickedListener = listener
     }
 
-    private fun condition(name : String,number: String,mail : String):Boolean{
-        if(name.isEmpty() || number.isEmpty() || mail.isEmpty()) {
+
+
+    // 빈칸 조건
+    private fun condition(name : String,number: String,mail : String):Boolean{ // condition 함수를 통해 빈칸이 있을 경우 false 반환
+        if(name.isEmpty() || number.isEmpty() || mail.isEmpty())
+        {
             Toast.makeText(context,"빈칸을 채워주세요.",Toast.LENGTH_LONG).show()
             return false
         }
@@ -69,13 +71,14 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
 
         return true
     }
-
     private fun mailCondition(mail : String):Boolean{
+
         val mail_condition = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}".toRegex()
         return mail_condition.matches(mail)
     }
 
     private fun numberCondition(number: String):Boolean{
+
         val number_condition = "^\\d{3}-\\d{3,4}-\\d{4}\$".toRegex()
         return number_condition.matches(number)
     }
