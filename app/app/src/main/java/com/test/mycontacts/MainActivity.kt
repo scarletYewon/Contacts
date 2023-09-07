@@ -1,6 +1,10 @@
 package com.test.mycontacts
 
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -43,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}")
 //                    ContactList() // 동규 주석
                     Toast.makeText(this@MainActivity,"${name} 전달 확인",Toast.LENGTH_LONG).show()
-                    }
+
+                }
                 }
             )
 

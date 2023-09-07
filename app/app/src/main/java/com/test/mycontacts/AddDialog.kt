@@ -1,7 +1,10 @@
 package com.test.mycontacts
 
+import android.app.AlarmManager
 import android.app.Dialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -35,6 +38,7 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
 
             if(condition(name,number, mail)) {
                 onClickedListener.onClicked(name, number, mail, notificationTime) // 알림 시간 값을 전달 , 추가4
+                scheduleAlarm(context, notificationTime) // 알림 예약 코드
                 onDataAdded?.invoke() // 동규추가2 , 추가5
                 dismiss()
             }
@@ -86,5 +90,15 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
         val number_condition = "^\\d{3}-\\d{3,4}-\\d{4}\$".toRegex()
         return number_condition.matches(number)
     }
+    private fun scheduleAlarm(context: Context, minutesFromNow: Int) { // 동규 추가
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+        val alarmIntent = Intent(context, AlarmReceiver::class.java).let {
+            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val triggerTime = System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'분 후
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
+    }
 }
