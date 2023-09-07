@@ -17,17 +17,10 @@ class ContactList : Fragment() {
     private lateinit var binding: FragmentDuduBinding
     private val dataList = mutableListOf<MyItems>()
     private val adapter = MyAdapter(dataList)
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentDuduBinding.inflate(inflater, container, false)
-
-        // 데이터 원본 준비 // 동규 수정(24~39) : 전화번호,이메일 추가
-        val dataList = mutableListOf(
-            MyItems.SmItem(R.drawable.sm_taeyeon, "우윳빛깔 김태연", "010-0000-0000", "taeyeon@sm.kr", R.drawable.img_like),
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dataList.addAll(listOf((
+                MyItems.SmItem(R.drawable.sm_taeyeon, "우윳빛깔 김태연", "010-0000-0000", "taeyeon@sm.kr", R.drawable.img_like)),
             MyItems.SmItem(R.drawable.sm_sunny, "사장님조카 써니", "010-0000-0001", "sunny@sm.kr", R.drawable.img_like),
             MyItems.SmItem(R.drawable.sm_tiffany, "보석닮은 티파니", "010-0000-0002", "tiffany@sm.kr", R.drawable.img_like),
             MyItems.jypItem(R.drawable.jyp_lily, "요정 릴리", "010-0000-0003", "lily@jyp.kr", R.drawable.img_like2),
@@ -44,7 +37,17 @@ class ContactList : Fragment() {
             MyItems.SmItem(R.drawable.sm_seohyun, "이쁜막내 서현", "010-0000-0014", "seohyun@sm.kr", R.drawable.img_like)
 
         )
-         )
+        )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentDuduBinding.inflate(inflater, container, false)
+
+        // 데이터 원본 준비 // 동규 수정(24~39) : 전화번호,이메일 추가
+
         // 어댑터 생성 및 연결
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -104,7 +107,7 @@ class ContactList : Fragment() {
     }
     fun addContact(name:String,number: String,mail:String)
     {
-        val addContact = MyItems.SmItem(R.drawable.basic,name,R.drawable.img_like)
+        val addContact = MyItems.SmItem(R.drawable.basic,name,number,mail,R.drawable.img_like)
         dataList.add(addContact)
 
         adapter.notifyDataSetChanged() //어댑터 새로고침
