@@ -15,7 +15,7 @@ class MessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.anim_splash)
 
-        val messageImage = findViewById<ImageView>(R.id.mess)
+        val messageImage = findViewById<ImageView>(R.id.message_image)
         val contactText = findViewById<TextView>(R.id.contact_text)
 
         // 메시지 이미지에 통통 튀는 애니메이션 적용
