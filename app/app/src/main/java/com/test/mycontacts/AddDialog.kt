@@ -1,6 +1,5 @@
 package com.test.mycontacts
 
-
 import android.app.Dialog
 import android.content.Context
 import android.view.Window
@@ -10,9 +9,9 @@ import com.test.mycontacts.databinding.DialogBinding
 
 
 class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(context) {
-
+    var onDataAdded: (() -> Unit)? = null  // 여기를 추가 // 동규 추가 다이어로그 꺼졋을때 화면갱신 , 추가1
     private lateinit var onClickedListener: ButtonClickListener
-
+    private var notificationTime = 0  // 동규 추가 : 알림 시간 값을 저장할 변수 , 추가2
 
     fun dig() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -23,17 +22,22 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
         val saveButton = binding.save
         val cancelButton = binding.cancelbtn
 
+        // 여기서부터 동규 추가Chip에 대한 onClickListener 설정 , 추가3
+        binding.off.setOnClickListener { notificationTime = 0 }
+        binding.fivemin.setOnClickListener { notificationTime = 5 }
+        binding.tenmin.setOnClickListener { notificationTime = 10 }
+        binding.thirtymin.setOnClickListener { notificationTime = 30 }
+
         saveButton.setOnClickListener {
             val name = binding.name.text.toString()
             val number = binding.number.text.toString()
             val mail = binding.mail.text.toString()
 
             if(condition(name,number, mail)) {
-
-                onClickedListener.onClicked(name,number,mail)
+                onClickedListener.onClicked(name, number, mail, notificationTime) // 알림 시간 값을 전달 , 추가4
+                onDataAdded?.invoke() // 동규추가2 , 추가5
                 dismiss()
             }
-
         }
 
         cancelButton.setOnClickListener {
@@ -42,7 +46,7 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
     }
 
     interface ButtonClickListener {
-        fun onClicked(name: String, number: String, email: String)
+        fun onClicked(name: String, number: String, email: String, notificationTime:Int) // 동규 수정 , notificationTime:Int 추가
     }
 
     fun setOnButtonClickListener(listener: ButtonClickListener) {
@@ -82,4 +86,5 @@ class AddDialog(context: Context, private val binding: DialogBinding) : Dialog(c
         val number_condition = "^\\d{3}-\\d{3,4}-\\d{4}\$".toRegex()
         return number_condition.matches(number)
     }
+
 }
