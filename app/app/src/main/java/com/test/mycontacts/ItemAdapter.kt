@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.mycontacts.MyItems
 import com.test.mycontacts.databinding.FragmentJypBinding
 import com.test.mycontacts.databinding.FragmentSmBinding
+import com.test.mycontacts.databinding.ItemRecyclerviewBinding
 
 class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -32,14 +33,14 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
         return when (viewType) {
             VIEW_TYPE_SM -> {
                 val binding =
-                    FragmentSmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 SmViewHolder(binding)
             }
 
             else -> {
                 //뷰타입 하나 일땐 이거만 있었다.
                 val binding =
-                    FragmentJypBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 JypViewHolder(binding)
             }
         }
@@ -86,14 +87,14 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
     }
 
     //1. inner class에 holder를 만드는데 2가지 레이아웃으로 뿌려줘야 하니까 2가지 Holder를 만든다.
-    inner class JypViewHolder(binding: FragmentJypBinding) :
+    inner class JypViewHolder(binding: ItemRecyclerviewBinding) :
        ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
         val likeImageView = binding.like
     }
 
-    inner class SmViewHolder(binding: FragmentSmBinding) :
+    inner class SmViewHolder(binding: ItemRecyclerviewBinding) :
         ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
