@@ -1,6 +1,7 @@
 package com.test.mycontacts
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -43,8 +46,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}")
 //                    ContactList() // 동규 주석
                     Toast.makeText(this@MainActivity,"${name} 전달 확인",Toast.LENGTH_LONG).show()
-                    }
                 }
+            }
             )
 
             dialog.dig()

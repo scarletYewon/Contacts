@@ -20,7 +20,7 @@ import com.test.mycontacts.databinding.FragmentDuduBinding
 class ContactList : Fragment() {
 
     private lateinit var binding: FragmentDuduBinding
-//    private val dataList = mutableListOf<MyItems>()
+    //    private val dataList = mutableListOf<MyItems>()
     private val adapter = MyAdapter(defaultDataList)
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
