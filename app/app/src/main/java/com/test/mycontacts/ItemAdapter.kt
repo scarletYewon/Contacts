@@ -87,14 +87,14 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
 
     //1. inner class에 holder를 만드는데 2가지 레이아웃으로 뿌려줘야 하니까 2가지 Holder를 만든다.
     inner class JypViewHolder(binding: FragmentJypBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+       ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
         val likeImageView = binding.like
     }
 
     inner class SmViewHolder(binding: FragmentSmBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
         val likeImageView = binding.like
