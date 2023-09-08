@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.test.mycontacts.databinding.FragmentMyPageBinding
-import android.Manifest // 이 부분을 추가하세요.
+import android.Manifest
 
 class MyPageFragment : Fragment() {
     private lateinit var binding: FragmentMyPageBinding
@@ -50,7 +49,6 @@ class MyPageFragment : Fragment() {
             binding.image.setImageURI(imageUri)
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,7 +56,6 @@ class MyPageFragment : Fragment() {
         binding = FragmentMyPageBinding.inflate(inflater, container, false)
         binding.callBtn.setOnClickListener {}
         binding.messageBtn.setOnClickListener {}
-        // Inflate the layout for this fragment
         binding.image.setOnClickListener {
             openGallery()
         }

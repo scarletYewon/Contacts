@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.mycontacts.MyItems
 import com.test.mycontacts.databinding.ItemRecyclerviewBinding
 import com.test.mycontacts.databinding.ItemRecyclerview2Binding
-import com.test.mycontacts.MyItems.Companion.defaultDataList
 import com.test.mycontacts.R
 
 class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHolder>() {
@@ -66,8 +65,7 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
                 smHolder.likeImageView.setOnClickListener {
                     item.toggleLike()
-                    // 필요하면 여기서 notifyDatasetChanged()를 호출하여 뷰를 업데이트 할 수 있습니다.
-                    notifyDataSetChanged()
+                    notifyDataSetChanged() // Like 클릭하면 화면갱신 해주기
                 }
 
                 smHolder.itemView.setOnClickListener {
@@ -80,7 +78,7 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
                 jypHolder.likeImageView.setOnClickListener {
                     item.toggleLike()
-                    notifyDataSetChanged()
+                    notifyDataSetChanged() // Like 클릭하면 화면갱신 해주기
                 }
 
                 jypHolder.itemView.setOnClickListener {
@@ -114,7 +112,8 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
         fun bind(item: MyItems) {
             if (item is MyItems.Item) {
-                iconImageView.setImageResource(item.aIcon)
+//                iconImageView.setImageResource(item.aIcon ?: 0)
+                iconImageView.setImageURI(item.aIcon)
                 name.text = item.aName
                 if(item.like == 0)
                 {likeImageView.setImageResource(R.drawable.img_like3)}
@@ -133,7 +132,8 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
         fun bind(item: MyItems) {
             if (item is MyItems.Item) {
-                iconImageView.setImageResource(item.aIcon)
+//                iconImageView.setImageResource(item.aIcon?:0) // 다이어로그 이미지 변환을 위해 URI로 변경
+                iconImageView.setImageURI(item.aIcon)
                 name.text = item.aName
                 if(item.like == 0)
                 {likeImageView.setImageResource(R.drawable.img_like3)}
