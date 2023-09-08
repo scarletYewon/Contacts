@@ -20,9 +20,11 @@ class DetailPageFragment : Fragment() {
         val name = arguments?.getString("name")
         val phonenumber = arguments?.getString("phonenumber")
         val email = arguments?.getString("email")
+        val notifi = arguments?.getInt("notifi")
         binding.imagename.text = name
         binding.phonenumberTv2.text = phonenumber
         binding.email2Tv.text = email
+        binding.notificationTv2.text = notifi.toString() + "분 후 알림"
         arguments?.let {
             binding.image.setImageResource(it.getInt("image"))
         } ?: run {}
