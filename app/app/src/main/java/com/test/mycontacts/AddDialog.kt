@@ -13,29 +13,36 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.test.mycontacts.databinding.DialogBinding
-import android.Manifest // 이 부분을 추가하세요.
+import android.Manifest
 import android.net.Uri
-import android.util.Log
 
 
 class AddDialog(private val activity: Activity, private val binding: DialogBinding) : Dialog(activity)
  {
-    var onDataAdded: (() -> Unit)? = null  // 여기를 추가 // 동규 추가 다이어로그 꺼졋을때 화면갱신 , 추가1
+    var onDataAdded: (() -> Unit)? = null // 람다함수를 자료형으로 가지는 변수. 그런데 ?이 붙어 null도 가능하고 초기값을 null로 주었다. 나중에 다이어로그 화면 갱신때 사용.
     private lateinit var onClickedListener: ButtonClickListener
-    private var notificationTime = 0  // 동규 추가 : 알림 시간 값을 저장할 변수 , 추가2
-    companion object { // MainActivity에서도 쓸꺼라 companion object로
+    private var notificationTime = 0  // 알림시간을 추가할 전역 변수
+    companion object { // companion object로 정의하면 AddDialog.REQUEST_GALLERY_DIALOG 이런식으로 다른 클래스에서도 쓸 수 있다.
         const val REQUEST_GALLERY_DIALOG = 3
     }
 
-    fun openGalleryForDialog() {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_GALLERY_DIALOG)
-        } else {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            activity.startActivityForResult(intent, REQUEST_GALLERY_DIALOG)
-        }
-    }
+     fun openGalleryForDialog() { // 갤러리를 여는 함수.
+         if (ContextCompat.checkSelfPermission(
+                 activity,
+                 Manifest.permission.READ_EXTERNAL_STORAGE // READ_EXTERNAL_STORAGE 권한이 있는지 확인. 앱이 사용자의 저장소에서 파일을 읽을수 있도록 허용하는 권한. android.Manifest를 import 해와야한다.
+             ) != PackageManager.PERMISSION_GRANTED // PackageManager.PERMISSION_GRANTED는 권한 승인상태. 승인상태가 아니라면, 아래의 실행문을 실행하게 된다.
+         ) {
+             ActivityCompat.requestPermissions( // requestPermissions 메서드를 이용해 사용자에게 해당 권한을 요청함.
+                 activity,
+                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                 REQUEST_GALLERY_DIALOG
+             )
+         } else { // 권한이 없는상태가 아니라면(= 권한이 있는 상태라면)
+             val intent = Intent(Intent.ACTION_PICK)
+             intent.type = "image/*" // 갤러리에서 이미지 파일만 표시하도록 지정
+             activity.startActivityForResult(intent, REQUEST_GALLERY_DIALOG) // REQUEST_GALLERY_DIALOG = 3이면, 갤러리 액티비티를 시작하면서 이 액티비티에서 결과를 반환받을 것임을 알린다.
+         }
+     }
     fun dig() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
@@ -48,7 +55,7 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
         val saveButton = binding.save
         val cancelButton = binding.cancelbtn
 
-        // 여기서부터 동규 추가Chip에 대한 onClickListener 설정 , 추가3
+
         binding.off.setOnClickListener { notificationTime = 0 }
         binding.fivemin.setOnClickListener { notificationTime = 5 }
         binding.tenmin.setOnClickListener { notificationTime = 10 }
@@ -60,9 +67,9 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
             val mail = binding.mail.text.toString()
 
             if(condition(name,number, mail)) {
-                onClickedListener.onClicked(name, number, mail, notificationTime) // 알림 시간 값을 전달 , 추가4
+                onClickedListener.onClicked(name, number, mail, notificationTime) // condition()을 만족하면 온클릭리스너를 사용 가능
                 scheduleAlarm(context, notificationTime) // 알림 예약 코드
-                onDataAdded?.invoke() // 동규추가2 , 추가5
+                onDataAdded?.let { it() } // null때문에 직접 호출하진 못하고, ?.let{ it() } 으로. ContactList에서 뷰페이저 어뎁터 갱신하는데에 사용, 어뎁터를 갱신하는 이유는 프래그먼트를 갱신해 데이터 추가후 화면을 갱신하기 위함.
                 dismiss()
             }
         }
@@ -73,7 +80,7 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
     }
 
     interface ButtonClickListener {
-        fun onClicked(name: String, number: String, email: String, notificationTime:Int) // 동규 수정 , notificationTime:Int 추가
+        fun onClicked(name: String, number: String, email: String, notificationTime:Int)
     }
 
     fun setOnButtonClickListener(listener: ButtonClickListener) {
@@ -113,19 +120,19 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
         val number_condition = "^\\d{3}-\\d{3,4}-\\d{4}\$".toRegex()
         return number_condition.matches(number)
     }
-    private fun scheduleAlarm(context: Context, minutesFromNow: Int) { // 동규 추가
+    private fun scheduleAlarm(context: Context, minutesFromNow: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val alarmIntent = Intent(context, AlarmReceiver::class.java).let {
             PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        val triggerTime = System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'분 후
+        val triggerTime = System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'초 후
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
     }
-    fun setImageUri(imageUri: Uri?) { // 다이어로그 이미지 추가용
-        Log.d("imageUri","imageUri:${imageUri}")
-        binding.profileimage.setImageURI(imageUri)
-    }
+     fun setImageUri(imageUri: Uri?) { // 다이어로그 이미지 추가용
+//         Log.d("imageUri","imageUri:${imageUri}") // 잘 추가됫는지 Log 확인용
+         binding.profileimage.setImageURI(imageUri)
+     }
 }

@@ -1,17 +1,17 @@
 package com.test.mycontacts
 
-sealed class MyItems { // 동규 수정(4~5) : 전화번호,이메일 추가
+sealed class MyItems {
     data class Item(val aIcon: Int, val aName: String, val aPhonenumber:String, val aEmail:String, val alike1: Int, val notifi:Int,var like:Int): MyItems(){
         var likeChanged = false
 
-        fun toggleLike(): Boolean {
+        fun toggleLike(): Boolean { // ViewType은 유지하고 like의 View만 바꾸기 위해 선언한 함수
             val originalLikeStatus = this.like
             this.like = if (this.like == 0) 1 else 0
             likeChanged = originalLikeStatus != this.like
             return likeChanged
         }
     }
-      companion object { // 동규 추가(6~24)
+      companion object { // 데이터 초기화를 피하기 위해 ContactList에서 data class로 옮기고 싱글턴으로 만듬
         var defaultDataList = mutableListOf<MyItems>(
             Item(R.drawable.sm_taeyeon, "우윳빛깔 김태연", "010-0000-0000", "taeyeon@sm.kr", R.drawable.img_like3,0,0),
             Item(R.drawable.sm_sunny, "사장님조카 써니", "010-0000-0001", "sunny@sm.kr", R.drawable.img_like3,0,0),
@@ -29,5 +29,6 @@ sealed class MyItems { // 동규 수정(4~5) : 전화번호,이메일 추가
             Item(R.drawable.jyp_kyujin, "귀엽다 규진", "010-0000-0013", "kyujin@jyp.kr", R.drawable.img_like3,0,0),
             Item(R.drawable.sm_seohyun, "이쁜막내 서현", "010-0000-0014", "seohyun@sm.kr", R.drawable.img_like3,0,0)
         )
+
     }
 }

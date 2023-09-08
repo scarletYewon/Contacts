@@ -7,12 +7,10 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val dataBundle = intent.extras
         val name = (MyItems.defaultDataList.last() as MyItems.Item).aName
         showNotification(context, name)
     }
@@ -37,7 +35,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText("${name}님에게 연락할 시간입니다!")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingOpenAppIntent)
-            .setAutoCancel(true)  // 알림을 클릭하면 자동으로 사라지게 합니다.
+            .setAutoCancel(true)  // 알림을 클릭하면 자동으로 사라지게 한다.
             .build()
 
         notificationManager.notify(0, notification)
