@@ -112,7 +112,8 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
         fun bind(item: MyItems) {
             if (item is MyItems.Item) {
-                iconImageView.setImageResource(item.aIcon ?: 0)
+//                iconImageView.setImageResource(item.aIcon ?: 0)
+                iconImageView.setImageURI(item.aIcon)
                 name.text = item.aName
                 if(item.like == 0)
                 {likeImageView.setImageResource(R.drawable.img_like3)}
@@ -131,7 +132,8 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
         fun bind(item: MyItems) {
             if (item is MyItems.Item) {
-                iconImageView.setImageResource(item.aIcon?:0)
+//                iconImageView.setImageResource(item.aIcon?:0) // 다이어로그 이미지 변환을 위해 URI로 변경
+                iconImageView.setImageURI(item.aIcon)
                 name.text = item.aName
                 if(item.like == 0)
                 {likeImageView.setImageResource(R.drawable.img_like3)}

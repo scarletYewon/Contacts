@@ -3,11 +3,10 @@ package com.test.mycontacts
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.test.mycontacts.MyItems.Companion.defaultDataList
 import com.test.mycontacts.databinding.ActivityMainBinding
 import com.test.mycontacts.databinding.DialogBinding
 
@@ -40,9 +39,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             addDialog.setOnButtonClickListener(object : AddDialog.ButtonClickListener {
-                override fun onClicked(name: String, number: String, mail: String, notificationTime: Int) {
+                override fun onClicked(uri: Uri?, name: String, number: String, mail: String, notificationTime: Int) {
+
+//                    Log.d("imageUri3","imageUri:${uri}") // 잘 추가됫는지 Log 확인용
                     val contactListFragment = pagerAdapter.getItem(0) as ContactList
-                    contactListFragment.addContact(name, number, mail, notificationTime)
+                    contactListFragment.addContact(uri,name, number, mail, notificationTime)
 //                    Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}") // 데이터 추가됫는지 확인용 Logcat
                     Toast.makeText(this@MainActivity, "${name} 전달 확인", Toast.LENGTH_LONG).show()
                 }
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AddDialog.REQUEST_GALLERY_DIALOG && resultCode == Activity.RESULT_OK) {
             val imageUri = data?.data
-            Log.d("ImageUri", "$imageUri")
+//            Log.d("ImageUri4", "$imageUri") 잘 추가됫는지 Log 확인용
             addDialog.setImageUri(imageUri)
         }
     }

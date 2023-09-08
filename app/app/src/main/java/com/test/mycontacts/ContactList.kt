@@ -1,5 +1,6 @@
 package com.test.mycontacts
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,7 @@ class ContactList : Fragment() {
                 val item = defaultDataList[position]
 
                 val name: String
-                val image: Int
+                val image: Uri?
                 val phonenumber: String
                 val email: String
                 val notifi: Int
@@ -48,7 +49,8 @@ class ContactList : Fragment() {
                 // 데이터를 Bundle로 패킹
                 val bundle = Bundle()
                 bundle.putString("name", name)
-                bundle.putInt("image", image)
+//                bundle.putInt("image", image)
+                bundle.putParcelable("image",image) // URI 데이터는 Paracelable로 전달 가능
                 bundle.putString("phonenumber", phonenumber)
                 bundle.putString("email", email)
                 bundle.putInt("notifi", notifi)
@@ -73,9 +75,9 @@ class ContactList : Fragment() {
 
     }
 
-    fun addContact(name:String, number: String, mail:String, notificationTime:Int)
+    fun addContact(uri:Uri?,name:String, number: String, mail:String, notificationTime:Int)
     {
-        val addContact = MyItems.Item(R.drawable.basic,name,number,mail,R.drawable.img_like3,notificationTime,0)
+        val addContact = MyItems.Item(uri,name,number,mail,R.drawable.img_like3,notificationTime,0)
         defaultDataList.add(addContact)
 //        Log.d("ContactList", "dataList: $defaultDataList") // 데이터 잘 추가됫는지 확인용
     }
