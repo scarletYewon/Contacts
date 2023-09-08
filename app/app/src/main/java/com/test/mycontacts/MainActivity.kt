@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var dialogBinding: DialogBinding
-    private lateinit var addDialog: AddDialog // 추가( 다이어로그 이미지 추가용)
+    private lateinit var addDialog: AddDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,34 +34,30 @@ class MainActivity : AppCompatActivity() {
         tab.setupWithViewPager(pager)
 
         binding.fbAdd.setOnClickListener{
+            // 다이어로그와 바인딩을 한 번만 초기화합니다.
             dialogBinding = DialogBinding.inflate(layoutInflater)
-            val dialog = AddDialog(this, dialogBinding)
-            // 여기에 onDataAdded 콜백을 설정합니다.
-            dialog.onDataAdded = {
+            addDialog = AddDialog(this, dialogBinding)
+
+            addDialog.onDataAdded = {
                 pager.adapter = pagerAdapter
                 pager.setCurrentItem(0, true)
             }
-            dialogBinding = DialogBinding.inflate(layoutInflater) // 여기서 초기화합니다.
-            addDialog = AddDialog(this, dialogBinding) // 여기서 초기화합니다.
-            dialog.setOnButtonClickListener(object : AddDialog.ButtonClickListener {
-                override fun onClicked(name: String,number: String,mail:String,notificationTime:Int) { // 동규 수정
+
+            addDialog.setOnButtonClickListener(object : AddDialog.ButtonClickListener {
+                override fun onClicked(name: String, number: String, mail: String, notificationTime: Int) {
                     val contactListFragment = pagerAdapter.getItem(0) as ContactList
-                    contactListFragment.addContact(name,number,mail,notificationTime) // 동규 수정
-
+                    contactListFragment.addContact(name, number, mail, notificationTime)
                     Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}")
-//                    ContactList() // 동규 주석
-                    Toast.makeText(this@MainActivity,"${name} 전달 확인",Toast.LENGTH_LONG).show()
-
+                    Toast.makeText(this@MainActivity, "${name} 전달 확인", Toast.LENGTH_LONG).show()
                 }
-                }
-            )
+            })
 
-            dialog.dig()
-            dialog.show()
+            addDialog.dig()
+            addDialog.show()
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AddDialog.REQUEST_GALLERY_DIALOG && resultCode == Activity.RESULT_OK) {
             val imageUri = data?.data

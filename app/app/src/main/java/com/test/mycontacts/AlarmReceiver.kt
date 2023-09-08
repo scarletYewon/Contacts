@@ -8,13 +8,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.test.mycontacts.MyItems.Companion.defaultDataList
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val dataBundle = intent.extras
-        val name = (MyItems.defaultDataList.last() as MyItems.SmItem).aName
+        val name = (MyItems.defaultDataList.last() as MyItems.Item).aName
         showNotification(context, name)
     }
 

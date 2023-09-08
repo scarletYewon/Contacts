@@ -1,10 +1,6 @@
 package com.test.mycontacts
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -51,21 +47,13 @@ class ContactList : Fragment() {
                 val email: String
                 val notifi: Int
                 when (item) {
-                    is MyItems.SmItem -> {
+                    is MyItems.Item -> {
                         name = item.aName
                         image = item.aIcon
                         phonenumber = item.aPhonenumber
                         email = item.aEmail
                         notifi = item.notifi
                     }
-                    is MyItems.jypItem -> {
-                        name = item.bName
-                        image = item.bIcon
-                        phonenumber = item.bPhonenumber
-                        email = item.bEmail
-                        notifi = item.notifi
-                    }
-                    else -> throw IllegalArgumentException("Unknown item type")
                 }
                 Toast.makeText(requireContext(), " $name 선택!", Toast.LENGTH_SHORT).show()
                 // 동규 추가(72~91) : 상세페이지로 데이터 전달 추가
@@ -100,7 +88,7 @@ class ContactList : Fragment() {
     @SuppressLint("NotifyDataSetChanged") // 동규 추가
     fun addContact(name:String, number: String, mail:String, notificationTime:Int)
     {
-        val addContact = MyItems.SmItem(R.drawable.basic,name,number,mail,R.drawable.img_like,notificationTime)
+        val addContact = MyItems.Item(R.drawable.basic,name,number,mail,R.drawable.img_like3,notificationTime,0)
         defaultDataList.add(addContact) // 동규 수정
         adapter.notifyDataSetChanged() // 어댑터 새로고침
 

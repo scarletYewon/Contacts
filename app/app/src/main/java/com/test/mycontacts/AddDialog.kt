@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.test.mycontacts.databinding.DialogBinding
 import android.Manifest // 이 부분을 추가하세요.
 import android.net.Uri
+import android.util.Log
 
 
 class AddDialog(private val activity: Activity, private val binding: DialogBinding) : Dialog(activity)
@@ -124,6 +125,7 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
     }
     fun setImageUri(imageUri: Uri?) { // 다이어로그 이미지 추가용
+        Log.d("imageUri","imageUri:${imageUri}")
         binding.profileimage.setImageURI(imageUri)
     }
 }
