@@ -88,7 +88,7 @@ class ContactList : Fragment() {
     @SuppressLint("NotifyDataSetChanged") // 동규 추가
     fun addContact(name:String, number: String, mail:String, notificationTime:Int)
     {
-        val addContact = MyItems.Item(R.drawable.basic,name,number,mail,R.drawable.img_like3,notificationTime)
+        val addContact = MyItems.Item(R.drawable.basic,name,number,mail,R.drawable.img_like3,notificationTime,0)
         defaultDataList.add(addContact) // 동규 수정
         adapter.notifyDataSetChanged() // 어댑터 새로고침
 

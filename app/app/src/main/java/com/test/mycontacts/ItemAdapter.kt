@@ -10,6 +10,7 @@ import com.test.mycontacts.MyItems
 import com.test.mycontacts.databinding.ItemRecyclerviewBinding
 import com.test.mycontacts.databinding.ItemRecyclerview2Binding
 import com.test.mycontacts.MyItems.Companion.defaultDataList
+import com.test.mycontacts.R
 
 class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -57,16 +58,38 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
 
     //실제로 화면이 실행됐을때 한 줄씩 불러준다.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mItems[position]
+        val item = mItems[position] as? MyItems.Item ?: return
         when (holder.itemViewType) {
-            VIEW_TYPE_SM -> (holder as SmViewHolder).bind(item)
-            VIEW_TYPE_JYP -> (holder as JypViewHolder).bind(item)
-        }
+            VIEW_TYPE_SM -> {
+                val smHolder = holder as SmViewHolder
+                smHolder.bind(item)
 
-        holder.itemView.setOnClickListener {
-            itemClick?.onClick(it, position)
+                smHolder.likeImageView.setOnClickListener {
+                    item.toggleLike()
+                    // 필요하면 여기서 notifyDatasetChanged()를 호출하여 뷰를 업데이트 할 수 있습니다.
+                    notifyDataSetChanged()
+                }
+
+                smHolder.itemView.setOnClickListener {
+                    itemClick?.onClick(it, position)
+                }
+            }
+            VIEW_TYPE_JYP -> {
+                val jypHolder = holder as JypViewHolder
+                jypHolder.bind(item)
+
+                jypHolder.likeImageView.setOnClickListener {
+                    item.toggleLike()
+                    notifyDataSetChanged()
+                }
+
+                jypHolder.itemView.setOnClickListener {
+                    itemClick?.onClick(it, position)
+                }
+            }
         }
     }
+
 
 
     override fun getItemId(position: Int): Long {
@@ -93,7 +116,9 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
             if (item is MyItems.Item) {
                 iconImageView.setImageResource(item.aIcon)
                 name.text = item.aName
-                likeImageView.setImageResource(item.alike1)
+                if(item.like == 0)
+                {likeImageView.setImageResource(R.drawable.img_like3)}
+                else {likeImageView.setImageResource(R.drawable.img_like5)}
             }
         }
 
@@ -110,7 +135,9 @@ class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter
             if (item is MyItems.Item) {
                 iconImageView.setImageResource(item.aIcon)
                 name.text = item.aName
-                likeImageView.setImageResource(item.alike1)
+                if(item.like == 0)
+                {likeImageView.setImageResource(R.drawable.img_like3)}
+                else {likeImageView.setImageResource(R.drawable.img_like5)}
             }
         }
 

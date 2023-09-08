@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.test.mycontacts.MyItems.Companion.defaultDataList
 
 class AlarmReceiver : BroadcastReceiver() {
 
