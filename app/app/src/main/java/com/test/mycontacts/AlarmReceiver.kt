@@ -14,7 +14,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val dataBundle = intent.extras
-        val name = (MyItems.defaultDataList.last() as MyItems.SmItem).aName
+        val name = (MyItems.defaultDataList.last() as MyItems.Item).aName
         showNotification(context, name)
     }
 

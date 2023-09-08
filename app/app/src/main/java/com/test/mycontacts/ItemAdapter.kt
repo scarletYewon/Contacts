@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 import com.test.mycontacts.MyItems
-import com.test.mycontacts.databinding.FragmentJypBinding
-import com.test.mycontacts.databinding.FragmentSmBinding
 import com.test.mycontacts.databinding.ItemRecyclerviewBinding
+import com.test.mycontacts.databinding.ItemRecyclerview2Binding
+import com.test.mycontacts.MyItems.Companion.defaultDataList
 
-class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHolder>() {
+class MyAdapter(private val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_SM = 1
@@ -29,46 +29,45 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_SM -> {
                 val binding =
-                    ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRecyclerviewBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 SmViewHolder(binding)
             }
 
-            else -> {
+            VIEW_TYPE_JYP -> {
                 //뷰타입 하나 일땐 이거만 있었다.
                 val binding =
-                    ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRecyclerview2Binding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 JypViewHolder(binding)
             }
+
+            else -> throw IllegalArgumentException("Unknown view type")
         }
     }
 
     //실제로 화면이 실행됐을때 한 줄씩 불러준다.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when (val item = mItems[position]) {
-            is MyItems.SmItem -> {
-                (holder as SmViewHolder).iconImageView.setImageResource(item.aIcon)
-                holder.name.text = "${item.aName} "
-                holder.likeImageView.setImageResource(item.alike1)
+        val item = mItems[position]
+        when (holder.itemViewType) {
+            VIEW_TYPE_SM -> (holder as SmViewHolder).bind(item)
+            VIEW_TYPE_JYP -> (holder as JypViewHolder).bind(item)
+        }
 
-                holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
-                }
-            }
-            is MyItems.jypItem -> {
-                (holder as JypViewHolder).iconImageView.setImageResource(item.bIcon)
-                holder.name.text = "${item.bName}"
-                holder.likeImageView.setImageResource(item.blike2)
-
-                holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
-                }
-            }
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(it, position)
         }
     }
+
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -80,24 +79,40 @@ class MyAdapter(val mItems: MutableList<MyItems>) : RecyclerView.Adapter<ViewHol
 
     //2.position에 해당하는 타입이 뭔지 알려달라는 함수
     override fun getItemViewType(position: Int): Int {
-        return when (mItems[position]) {
-            is MyItems.SmItem -> VIEW_TYPE_SM
-            is MyItems.jypItem -> VIEW_TYPE_JYP
-        }
+        return if (position % 2 == 0) VIEW_TYPE_SM else VIEW_TYPE_JYP
     }
 
     //1. inner class에 holder를 만드는데 2가지 레이아웃으로 뿌려줘야 하니까 2가지 Holder를 만든다.
-    inner class JypViewHolder(binding: ItemRecyclerviewBinding) :
-       ViewHolder(binding.root) {
+    inner class JypViewHolder(binding: ItemRecyclerview2Binding) :
+        ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
         val likeImageView = binding.like
+
+        fun bind(item: MyItems) {
+            if (item is MyItems.Item) {
+                iconImageView.setImageResource(item.aIcon)
+                name.text = item.aName
+                likeImageView.setImageResource(item.alike1)
+            }
+        }
+
     }
+
 
     inner class SmViewHolder(binding: ItemRecyclerviewBinding) :
         ViewHolder(binding.root) {
         val iconImageView = binding.iconItem
         val name = binding.textItem
         val likeImageView = binding.like
+
+        fun bind(item: MyItems) {
+            if (item is MyItems.Item) {
+                iconImageView.setImageResource(item.aIcon)
+                name.text = item.aName
+                likeImageView.setImageResource(item.alike1)
+            }
+        }
+
     }
 }
