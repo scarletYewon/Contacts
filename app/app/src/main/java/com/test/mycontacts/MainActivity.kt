@@ -2,15 +2,11 @@ package com.test.mycontacts
 
 
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.test.mycontacts.MyItems.Companion.defaultDataList
 import com.test.mycontacts.databinding.ActivityMainBinding
 import com.test.mycontacts.databinding.DialogBinding
 
@@ -34,20 +30,21 @@ class MainActivity : AppCompatActivity() {
         tab.setupWithViewPager(pager)
 
         binding.fbAdd.setOnClickListener{
-            // 다이어로그와 바인딩을 한 번만 초기화합니다.
             dialogBinding = DialogBinding.inflate(layoutInflater)
             addDialog = AddDialog(this, dialogBinding)
 
-            addDialog.onDataAdded = {
-                pager.adapter = pagerAdapter
+            addDialog.onDataAdded = { // 위에서 초기화한 AddDialog에 onDataAdded?.let { it() }에 실행문이 전달되고 실행된다.
+                pager.adapter = pagerAdapter // ViewPager 어댑터 설정
                 pager.setCurrentItem(0, true)
             }
 
             addDialog.setOnButtonClickListener(object : AddDialog.ButtonClickListener {
-                override fun onClicked(name: String, number: String, mail: String, notificationTime: Int) {
+                override fun onClicked(uri: Uri?, name: String, number: String, mail: String, notificationTime: Int) {
+
+//                    Log.d("imageUri3","imageUri:${uri}") // 잘 추가됫는지 Log 확인용
                     val contactListFragment = pagerAdapter.getItem(0) as ContactList
-                    contactListFragment.addContact(name, number, mail, notificationTime)
-                    Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}")
+                    contactListFragment.addContact(uri,name, number, mail, notificationTime)
+//                    Log.d("DataListCheck", "Size of dataList: ${defaultDataList.size}") // 데이터 추가됫는지 확인용 Logcat
                     Toast.makeText(this@MainActivity, "${name} 전달 확인", Toast.LENGTH_LONG).show()
                 }
             })
@@ -61,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AddDialog.REQUEST_GALLERY_DIALOG && resultCode == Activity.RESULT_OK) {
             val imageUri = data?.data
-            Log.d("ImageUri", "$imageUri")
+//            Log.d("ImageUri4", "$imageUri") 잘 추가됫는지 Log 확인용
             addDialog.setImageUri(imageUri)
         }
     }
