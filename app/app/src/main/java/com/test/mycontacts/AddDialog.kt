@@ -147,16 +147,18 @@ class AddDialog(private val activity: Activity, private val binding: DialogBindi
     }
 
     private fun scheduleAlarm(context: Context, minutesFromNow: Int) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        if(minutesFromNow!=0) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val alarmIntent = Intent(context, AlarmReceiver::class.java).let {
-            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
+            val alarmIntent = Intent(context, AlarmReceiver::class.java).let {
+                PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
+            }
+
+            val triggerTime =
+                System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'초 후
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
         }
-
-        val triggerTime =
-            System.currentTimeMillis() + minutesFromNow * 1000  // 현재 시간으로부터 'minutesFromNow'초 후
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, alarmIntent)
     }
 
     fun setImageUri(imageUri: Uri?) { // 다이어로그 이미지 추가용
